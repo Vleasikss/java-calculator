@@ -16,7 +16,7 @@ import com.company.calculator.service.printer.PrinterService;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class CalculatorRunner {
+public final class CalculatorRunner {
 
     private static final Scanner scanner = new Scanner(System.in).useDelimiter("\n\\s*");
     private static final PrinterService historyLogPrinterService = new HistoryLogPrinterService();

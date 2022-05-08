@@ -19,17 +19,14 @@ public class ArithmeticFunctionParser implements ExpressionParser<InfixExpressio
         try {
             String matchWithoutBrackets = expression.replaceAll(EXTRACT_BRACKETS_REGEX, "");
             Matcher matcher = PARSE_ARITHMETIC_FUNCTION_PATTERN.matcher(matchWithoutBrackets);
-
             if (matcher.find()) {
                 return parseOne(expression);
             }
-
             throw new InvalidDataException();
         } catch (Exception e) {
             throw new InvalidDataException();
         }
     }
-
 
     private static InfixExpressionValue parseOne(String expression) {
         ArithmeticFunction function = Arrays.stream(ArithmeticFunction.values())
@@ -40,7 +37,6 @@ public class ArithmeticFunctionParser implements ExpressionParser<InfixExpressio
         Matcher numberMatch = PARSE_NUMBER_PATTERN.matcher(expression);
 
         double[] values = new double[2];
-
         for (int i = 0; i < values.length; i++) {
             if (numberMatch.find()) {
                 values[i] = Double.parseDouble(numberMatch.group());
