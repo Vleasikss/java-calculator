@@ -14,8 +14,8 @@ public class CalculatorLogPrinterService implements PrinterService {
     }
 
     @Override
-    public void print(String identifier) {
-        Optional<HistoryAction> byId = storageHelper.findById(identifier);
+    public void print(String historyId) {
+        Optional<HistoryAction> byId = storageHelper.findById(historyId);
         byId.ifPresent(historyAction -> System.out.println(historyAction.getDesc()));
     }
 }
