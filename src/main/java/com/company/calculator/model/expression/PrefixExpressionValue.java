@@ -4,6 +4,9 @@ import com.company.calculator.model.MathFunction;
 
 import java.util.Objects;
 
+/**
+ * Expression is left, value,number is right
+ */
 public class PrefixExpressionValue implements ExpressionValue {
 
     private final MathFunction expression;

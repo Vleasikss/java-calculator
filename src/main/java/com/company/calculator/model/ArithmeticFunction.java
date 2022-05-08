@@ -1,7 +1,7 @@
 package com.company.calculator.model;
 
 public enum ArithmeticFunction implements MathFunction {
-    DIVIDE("/"), MULTIPLY("*"), MINUS("-"), PLUS("+");
+    DIVIDE("/"), MULTIPLY("*"), PLUS("+"), MINUS("-");
 
     private final String value;
 

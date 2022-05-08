@@ -4,6 +4,9 @@ import com.company.calculator.model.MathFunction;
 
 import java.util.Objects;
 
+/**
+ * Expression is in center, operands are left and right
+ */
 public class InfixExpressionValue implements ExpressionValue {
 
     private final MathFunction expression;

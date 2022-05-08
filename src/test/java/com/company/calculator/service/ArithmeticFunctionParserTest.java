@@ -33,6 +33,12 @@ public class ArithmeticFunctionParserTest {
         InfixExpressionValue parse5 = parser.parse("-20*-4");
         assertEquals(parse5, new InfixExpressionValue(ArithmeticFunction.MULTIPLY, -20, -4));
 
+        InfixExpressionValue parse6 = parser.parse("-20+-4");
+        assertEquals(parse6, new InfixExpressionValue(ArithmeticFunction.PLUS, -20, -4));
+
+        InfixExpressionValue parse7 = parser.parse("-40/-40");
+        assertEquals(parse7, new InfixExpressionValue(ArithmeticFunction.DIVIDE, -40, -40));
+
 //      todo   throws error
 //        InfixExpressionValue parse6 = parser.parse("-20--4");
 //        assertEquals(parse6, new InfixExpressionValue(ArithmeticFunction.MINUS, -20, -4));
