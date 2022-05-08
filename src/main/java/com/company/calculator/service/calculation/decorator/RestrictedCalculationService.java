@@ -22,8 +22,7 @@ public class RestrictedCalculationService<T extends ExpressionValue> implements 
             if (userId.isPresent()) {
                 return calculationService.calculate(expressionValue);
             }
-            System.out.println("You have no access to use such calculations");
-            return 0.0;
+            throw new UnsupportedOperationException();
         }
         return calculationService.calculate(expressionValue);
     }

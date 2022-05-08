@@ -20,10 +20,8 @@ public class TrigCalculationService implements CalculationService<PrefixExpressi
         try {
             String functionName = expressionValue.getExpression().name().toUpperCase();
             TrigFunction trigFunction = TrigFunction.valueOf(functionName);
-            double result = TRIG_FUNCTIONS.get(trigFunction).apply(expressionValue.getValue());
-            System.out.println(expressionValue.description() + "=" + result);
-            return result;
-        } catch (ArithmeticException e) {
+            return TRIG_FUNCTIONS.get(trigFunction).apply(expressionValue.getValue());
+        } catch (Exception e) {
             System.out.println("Data entered incorrectly");
             return 0.0;
         }

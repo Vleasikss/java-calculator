@@ -1,5 +1,6 @@
 package com.company.calculator.service.parser;
 
+import com.company.calculator.exception.InvalidDataException;
 import com.company.calculator.model.ArithmeticFunction;
 import com.company.calculator.model.expression.InfixExpressionValue;
 
@@ -15,14 +16,18 @@ public class ArithmeticFunctionParser implements ExpressionParser<InfixExpressio
 
     @Override
     public InfixExpressionValue parse(String expression) {
-        String matchWithoutBrackets = expression.replaceAll(EXTRACT_BRACKETS_REGEX, "");
+        try {
+            String matchWithoutBrackets = expression.replaceAll(EXTRACT_BRACKETS_REGEX, "");
+            Matcher matcher = PARSE_ARITHMETIC_FUNCTION_PATTERN.matcher(matchWithoutBrackets);
 
-        Matcher matcher = PARSE_ARITHMETIC_FUNCTION_PATTERN.matcher(matchWithoutBrackets);
+            if (matcher.find()) {
+                return parseOne(expression);
+            }
 
-        if (matcher.find()) {
-            return parseOne(expression);
+            throw new InvalidDataException();
+        } catch (Exception e) {
+            throw new InvalidDataException();
         }
-        return null;
     }
 
 
@@ -46,7 +51,7 @@ public class ArithmeticFunctionParser implements ExpressionParser<InfixExpressio
     }
 
     /**
-     * @return (-?\d+\)?\s?\/\s?-?\(?\d+)|(-?\d+\)?\s?\*\s?-?\(?\d+)|(-?\d+\)?\s?\+\s?-?\(?\d+)|(-?\d+\)?\s?\-\s?-?\(?\d+)
+     * @return (- ? \ d + \)?\s?\/\s?-?\(?\d+)|(-?\d+\)?\s?\*\s?-?\(?\d+)|(-?\d+\)?\s?\+\s?-?\(?\d+)|(-?\d+\)?\s?\-\s?-?\(?\d+)
      */
     private static String buildParseArithmeticFunctionRegex() {
         StringBuilder builder = new StringBuilder();

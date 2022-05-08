@@ -1,5 +1,6 @@
 package com.company.calculator.service.parser;
 
+import com.company.calculator.exception.InvalidDataException;
 import com.company.calculator.model.MathFunction;
 import com.company.calculator.model.TrigFunction;
 import com.company.calculator.model.expression.PrefixExpressionValue;
@@ -20,19 +21,21 @@ public class TrigFunctionParser implements ExpressionParser<PrefixExpressionValu
 
     @Override
     public PrefixExpressionValue parse(String expression) {
-        Matcher matcher = PARSE_TRIG_FUNCTION_PATTERN.matcher(expression);
-
-        if (matcher.find()) {
-            return parseOne(matcher.group()).orElse(null);
+        try {
+            Matcher matcher = PARSE_TRIG_FUNCTION_PATTERN.matcher(expression);
+            if (matcher.find()) {
+                return parseOne(matcher.group()).orElse(null);
+            }
+            throw new InvalidDataException();
+        } catch (Exception e) {
+            throw new InvalidDataException();
         }
-
-        return null;
     }
 
     private static Optional<PrefixExpressionValue> parseOne(String group) {
         Matcher extractValueFromTrigFunctionMatcher = EXTRACT_VALUE_FROM_TRIG_FUNCTION_PATTERN.matcher(group);
         if (extractValueFromTrigFunctionMatcher.find()) {
-            String strValue = extractValueFromTrigFunctionMatcher.group().replaceAll(EXTRACT_BRACKETS_REGEX,"");
+            String strValue = extractValueFromTrigFunctionMatcher.group().replaceAll(EXTRACT_BRACKETS_REGEX, "");
             double value = Double.parseDouble(strValue);
 
             String strFunction = group.split(EXTRACT_ALL_BEFORE_FIRST_BRACKET_REGEX)[0].toUpperCase();
@@ -44,7 +47,7 @@ public class TrigFunctionParser implements ExpressionParser<PrefixExpressionValu
     }
 
     /**
-     * @return (sin\(\d+\))|(cos\(\d+\))|(tan\(\d+\))|(cot\(\d+\))
+     * @return (sin \ ( \ d + \))|(cos\(\d+\))|(tan\(\d+\))|(cot\(\d+\))
      */
     private static String buildParseTrigFunctionRegex() {
         StringBuilder builder = new StringBuilder();

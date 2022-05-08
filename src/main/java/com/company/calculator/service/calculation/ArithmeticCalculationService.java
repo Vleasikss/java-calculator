@@ -20,10 +20,8 @@ public class ArithmeticCalculationService implements CalculationService<InfixExp
         try {
             String functionName = expressionValue.getExpression().name().toUpperCase();
             ArithmeticFunction arithmeticFunction = ArithmeticFunction.valueOf(functionName);
-            double result = ARITHMETIC_FUNCTIONS.get(arithmeticFunction).apply(expressionValue.getLeftValue(), expressionValue.getRightValue());
-            System.out.println(expressionValue.description() + "=" + result);
-            return result;
-        } catch (ArithmeticException e) {
+            return ARITHMETIC_FUNCTIONS.get(arithmeticFunction).apply(expressionValue.getLeftValue(), expressionValue.getRightValue());
+        } catch (Exception e) {
             System.out.println("Data entered incorrectly");
             return 0.0;
         }
