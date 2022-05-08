@@ -1,6 +1,6 @@
 package com.company.calculator.model;
 
-public class User {
+public class User implements EntityId {
 
     private String id;
     private String login;
@@ -15,6 +15,7 @@ public class User {
         this.password = password;
     }
 
+    @Override
     public String getId() {
         return id;
     }
@@ -38,4 +39,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

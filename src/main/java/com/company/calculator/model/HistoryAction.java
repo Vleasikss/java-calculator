@@ -1,18 +1,42 @@
 package com.company.calculator.model;
 
-public class HistoryAction {
+import com.company.calculator.model.expression.ExpressionValue;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public class HistoryAction implements EntityId {
 
     private String id;
-    private Action action;
+    private MathFunction function;
+    private String desc;
+    private String userId;
 
     public HistoryAction() {
     }
 
-    public HistoryAction(String id, Action action) {
+    public HistoryAction(String id, MathFunction action, String userId) {
         this.id = id;
-        this.action = action;
+        this.function = action;
+        this.userId = userId;
     }
 
+    public HistoryAction(MathFunction action, String userId, String desc) {
+        this.function = action;
+        this.userId = userId;
+        this.desc = desc;
+    }
+
+    public HistoryAction(String id, MathFunction action, String userId, String desc) {
+        this.id = id;
+        this.function = action;
+        this.userId = userId;
+        this.desc = desc;
+    }
+
+    public static String buildDescription(String expression, double result) {
+        return expression + "=" + result;
+    }
+
+    @Override
     public String getId() {
         return id;
     }
@@ -21,12 +45,37 @@ public class HistoryAction {
         this.id = id;
     }
 
-    public Action getAction() {
-        return action;
+    public MathFunction getFunction() {
+        return function;
     }
 
-    public void setAction(Action action) {
-        this.action = action;
+    public void setFunction(MathFunction function) {
+        this.function = function;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    @Override
+    public String toString() {
+        return "HistoryAction{" +
+                "id='" + id + '\'' +
+                ", function=" + function +
+                ", desc='" + desc + '\'' +
+                ", userId='" + userId + '\'' +
+                '}';
+    }
 }
