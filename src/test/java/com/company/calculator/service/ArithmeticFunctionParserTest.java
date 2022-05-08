@@ -39,9 +39,8 @@ public class ArithmeticFunctionParserTest {
         InfixExpressionValue parse7 = parser.parse("-40/-40");
         assertEquals(parse7, new InfixExpressionValue(ArithmeticFunction.DIVIDE, -40, -40));
 
-//      todo   throws error
-//        InfixExpressionValue parse6 = parser.parse("-20--4");
-//        assertEquals(parse6, new InfixExpressionValue(ArithmeticFunction.MINUS, -20, -4));
+//        InfixExpressionValue parse8 = parser.parse("-20-(-4)");
+//        assertEquals(parse8, new InfixExpressionValue(ArithmeticFunction.MINUS, -20, -4));
     }
 
     @Test
