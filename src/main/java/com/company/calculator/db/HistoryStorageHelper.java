@@ -8,6 +8,10 @@ import java.util.stream.Collectors;
 
 public class HistoryStorageHelper extends AbstractInMemoryStorageHelper<HistoryAction> {
 
+    public HistoryStorageHelper() {
+        super();
+    }
+
     @Override
     public String storageFilename() {
         return "histories.json";

@@ -63,7 +63,7 @@ public abstract class AbstractInMemoryStorageHelper<T extends EntityId> {
     protected void init() {
         try {
             if (!Files.exists(storageFilePath()) || Files.readString(storageFilePath()).isEmpty()) {
-                List<T> value = new ArrayList<T>();
+                List<T> value = new ArrayList<>();
                 String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(value);
                 Files.writeString(storageFilePath(), json);
             }
@@ -74,7 +74,14 @@ public abstract class AbstractInMemoryStorageHelper<T extends EntityId> {
 
     protected Path storageFilePath() {
         URL resource = getClass().getResource("/data");
-        return Paths.get(Objects.requireNonNull(resource).getPath(), storageFilename());
+        if (resource != null) {
+            return Paths.get(Objects.requireNonNull(resource).getPath(), storageFilename());
+        }
+
+        String path = Objects.requireNonNull(getClass().getResource("/")).getPath();
+        Path data = Path.of(path, "data");
+        data.toFile().mkdir();
+        return Paths.get(data.toAbsolutePath().toString(), storageFilename());
     }
 
 }

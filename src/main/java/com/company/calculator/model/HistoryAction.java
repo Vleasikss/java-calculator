@@ -23,7 +23,7 @@ public class HistoryAction implements EntityId {
         this.desc = desc;
     }
 
-    public static String buildDescription(String expression, double result) {
+    public static String buildResultDescription(String expression, double result) {
         return expression + "=" + result;
     }
 

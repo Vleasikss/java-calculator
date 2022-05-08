@@ -12,9 +12,9 @@ public class RestrictedHistoryStorageHelper extends HistoryStorageHelper {
     private final HistoryStorageHelper storageHelper;
 
     public RestrictedHistoryStorageHelper(HistoryStorageHelper storageHelper, Optional<String> userId) {
+        super();
         this.userId = userId;
         this.storageHelper = storageHelper;
-        this.init();
     }
 
     @Override

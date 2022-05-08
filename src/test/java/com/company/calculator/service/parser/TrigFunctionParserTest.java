@@ -1,8 +1,7 @@
-package com.company.calculator.service;
+package com.company.calculator.service.parser;
 
 import com.company.calculator.model.TrigFunction;
 import com.company.calculator.model.expression.PrefixExpressionValue;
-import com.company.calculator.service.parser.TrigFunctionParser;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -11,7 +10,6 @@ import static org.junit.Assert.assertNull;
 public class TrigFunctionParserTest {
 
     private static final TrigFunctionParser trigFunctionParser = new TrigFunctionParser();
-
 
     @Test
     public void shouldParseTrigFunction() {

@@ -43,6 +43,9 @@ public class TrigFunctionParser implements ExpressionParser<PrefixExpressionValu
         return Optional.empty();
     }
 
+    /**
+     * @return (sin\(\d+\))|(cos\(\d+\))|(tan\(\d+\))|(cot\(\d+\))
+     */
     private static String buildParseTrigFunctionRegex() {
         StringBuilder builder = new StringBuilder();
         for (TrigFunction function : TrigFunction.values()) {

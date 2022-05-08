@@ -43,6 +43,11 @@ public class PrefixExpressionValue implements ExpressionValue {
         return Objects.hash(expression, value);
     }
 
-
-
+    @Override
+    public String toString() {
+        return "PrefixExpressionValue{" +
+                "expression=" + expression +
+                ", value=" + value +
+                '}';
+    }
 }

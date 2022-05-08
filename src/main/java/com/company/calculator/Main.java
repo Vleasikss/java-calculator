@@ -55,6 +55,9 @@ public class Main {
                     startCalculations(Optional.empty());
                 }
             }
+            if (Objects.equals(answer, KeyExpressions.EXIT)) {
+                break;
+            }
         }
     }
 
@@ -79,12 +82,12 @@ public class Main {
 
                 ExpressionValue expressionValue = expressionParser.parse(expression);
                 double result = calculationService.calculate(expressionValue);
-                String desc = HistoryAction.buildDescription(expression, result);
+                String description = HistoryAction.buildResultDescription(expressionValue.description(), result);
 
                 HistoryAction historyAction = new HistoryAction(
                         expressionValue.getExpression(),
                         userId.orElse(null),
-                        desc
+                        description
                 );
                 historyStorageHelper.save(historyAction);
             } else {

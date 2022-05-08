@@ -6,6 +6,10 @@ import java.util.Optional;
 
 public class UserStorageHelper extends AbstractInMemoryStorageHelper<User> {
 
+    public UserStorageHelper() {
+        super();
+    }
+
     @Override
     public String storageFilename() {
         return "users.json";
