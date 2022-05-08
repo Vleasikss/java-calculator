@@ -6,12 +6,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         property = "type")
-@JsonSubTypes(
-        {
-                @JsonSubTypes.Type(value = ArithmeticFunction.class, name = "arithmetic"),
-                @JsonSubTypes.Type(value = TrigFunction.class, name = "trig")
-        }
-)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = ArithmeticFunction.class, name = "arithmetic"),
+        @JsonSubTypes.Type(value = TrigFunction.class, name = "trig")
+})
 public interface MathFunction {
 
     String name();

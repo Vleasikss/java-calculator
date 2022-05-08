@@ -41,7 +41,7 @@ public class UserAuthorizer {
             String repeatPassword = scanner.next();
 
             if (!validateAuthentication(login, password, repeatPassword)) {
-                return false;
+                return processAuthentication();
             }
             String idUser = generateUserId();
             User user = new User(idUser, login, password);

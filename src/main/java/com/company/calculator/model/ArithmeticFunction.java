@@ -14,20 +14,4 @@ public enum ArithmeticFunction implements MathFunction {
         return this.value;
     }
 
-    public static ArithmeticFunction ofValue(String value) {
-        if (value.equals(DIVIDE.value)) {
-            return DIVIDE;
-        }
-        if (value.equals(MULTIPLY.value)) {
-            return MULTIPLY;
-        }
-        if (value.equals(MINUS.value)) {
-            return MINUS;
-        }
-        if (value.equals(PLUS.value)) {
-            return PLUS;
-        }
-        return null;
-    }
-
 }

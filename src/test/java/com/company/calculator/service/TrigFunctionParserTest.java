@@ -1,15 +1,12 @@
 package com.company.calculator.service;
 
-import com.company.calculator.model.expression.PrefixExpressionValue;
 import com.company.calculator.model.TrigFunction;
+import com.company.calculator.model.expression.PrefixExpressionValue;
 import com.company.calculator.service.parser.TrigFunctionParser;
 import org.junit.Test;
 
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 public class TrigFunctionParserTest {
 

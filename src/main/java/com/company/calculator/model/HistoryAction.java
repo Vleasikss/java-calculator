@@ -1,8 +1,5 @@
 package com.company.calculator.model;
 
-import com.company.calculator.model.expression.ExpressionValue;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class HistoryAction implements EntityId {
 
     private String id;
@@ -11,12 +8,6 @@ public class HistoryAction implements EntityId {
     private String userId;
 
     public HistoryAction() {
-    }
-
-    public HistoryAction(String id, MathFunction action, String userId) {
-        this.id = id;
-        this.function = action;
-        this.userId = userId;
     }
 
     public HistoryAction(MathFunction action, String userId, String desc) {
