@@ -1,5 +1,7 @@
 package com.company.calculator.model;
 
+import java.util.Objects;
+
 public class HistoryAction implements EntityId {
 
     private String id;
@@ -58,6 +60,19 @@ public class HistoryAction implements EntityId {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HistoryAction that = (HistoryAction) o;
+        return Objects.equals(id, that.id) && Objects.equals(function, that.function) && Objects.equals(desc, that.desc) && Objects.equals(userId, that.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, function, desc, userId);
     }
 
     @Override

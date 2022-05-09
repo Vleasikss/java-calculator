@@ -1,11 +1,13 @@
 package com.company.calculator.service.parser;
 
+import com.company.calculator.exception.InvalidDataException;
 import com.company.calculator.model.TrigFunction;
 import com.company.calculator.model.expression.PrefixExpressionValue;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 
 public class TrigFunctionParserTest {
 
@@ -28,15 +30,16 @@ public class TrigFunctionParserTest {
     }
 
     @Test
-    public void shouldParseTrigFunctionsExceptOne() {
-        PrefixExpressionValue expressionValues = trigFunctionParser.parse("sin30)");
-        assertNull(expressionValues);
-    }
-
-    @Test
     public void shouldParseNoTrigFunction() {
-        PrefixExpressionValue expressionValues = trigFunctionParser.parse("sin30 cos45");
-        assertNull(expressionValues);
+        assertThrows(InvalidDataException.class, () -> {
+            PrefixExpressionValue expressionValues = trigFunctionParser.parse("sin30 cos45");
+            assertNull(expressionValues);
+        });
+
+        assertThrows(InvalidDataException.class, () -> {
+            PrefixExpressionValue expressionValues = trigFunctionParser.parse("sin30)");
+            assertNull(expressionValues);
+        });
     }
 
 }

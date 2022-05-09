@@ -4,7 +4,6 @@ import com.company.calculator.model.HistoryAction;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public class RestrictedHistoryStorageHelper extends HistoryStorageHelper {
 
@@ -42,9 +41,6 @@ public class RestrictedHistoryStorageHelper extends HistoryStorageHelper {
 
     @Override
     public void save(HistoryAction historyAction) {
-        if (historyAction.getId() == null || historyAction.getId().isEmpty()) {
-            historyAction.setId(UUID.randomUUID().toString().substring(0, 6));
-        }
         storageHelper.save(historyAction);
     }
 }

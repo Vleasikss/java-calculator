@@ -3,6 +3,7 @@ package com.company.calculator;
 import com.company.calculator.db.HistoryStorageHelper;
 import com.company.calculator.db.RestrictedHistoryStorageHelper;
 import com.company.calculator.exception.InvalidDataException;
+import com.company.calculator.exception.NoAccessException;
 import com.company.calculator.model.HistoryAction;
 import com.company.calculator.model.expression.ExpressionValue;
 import com.company.calculator.service.CalculatorFactory;
@@ -35,28 +36,40 @@ public final class CalculatorRunner {
             } else if (expression.equals(KeyExpressions.HISTORY)) {
                 historyLogPrinterService.print(userId.orElse(null));
             } else if ((calculatorFactory = CalculatorFactory.createFactory(expression)) != null) {
-                CalculationService<ExpressionValue> calculationService = new RestrictedCalculationService<>(calculatorFactory.createService(), userId);
-                ExpressionParser<ExpressionValue> expressionParser = calculatorFactory.createParser();
-                try {
-                    ExpressionValue expressionValue = expressionParser.parse(expression);
-                    double result = calculationService.calculate(expressionValue);
-                    String description = HistoryAction.buildResultDescription(expressionValue.description(), result);
-
-                    HistoryAction historyAction = new HistoryAction(
-                            expressionValue.getExpression(),
-                            userId.orElse(null),
-                            description
-                    );
-                    historyStorageHelper.save(historyAction);
-                    calculatorLogPrinterService.print(historyAction.getId());
-                } catch (UnsupportedOperationException e) {
-                    System.out.println("You have no access to use such calculations");
-                } catch (InvalidDataException e) {
-                    System.out.println("Invalid data provided");
-                }
+                calculate(userId, calculatorFactory, historyStorageHelper, calculatorLogPrinterService, expression);
             } else {
                 System.out.println("Some unexpected expression");
             }
+        }
+    }
+
+    private static void calculate(
+            Optional<String> userId,
+            CalculatorFactory<ExpressionValue> calculatorFactory,
+            RestrictedHistoryStorageHelper historyStorageHelper,
+            PrinterService calculatorLogPrinterService,
+            String expression
+    ) {
+        CalculationService<ExpressionValue> calculationService = new RestrictedCalculationService<>(calculatorFactory.createService(), userId);
+        ExpressionParser<ExpressionValue> expressionParser = calculatorFactory.createParser();
+
+        try {
+            ExpressionValue expressionValue = expressionParser.parse(expression);
+            double result = calculationService.calculate(expressionValue);
+            String description = HistoryAction.buildResultDescription(expressionValue.description(), result);
+
+            HistoryAction historyAction = new HistoryAction(
+                    expressionValue.getExpression(),
+                    userId.orElse(null),
+                    description
+            );
+            historyStorageHelper.save(historyAction);
+
+            calculatorLogPrinterService.print(historyAction.getId());
+        } catch (NoAccessException e) {
+            System.out.println("You have no access to use such calculations");
+        } catch (InvalidDataException e) {
+            System.out.println("Invalid data provided");
         }
     }
 }

@@ -1,11 +1,13 @@
 package com.company.calculator.service.parser;
 
+import com.company.calculator.exception.InvalidDataException;
 import com.company.calculator.model.ArithmeticFunction;
 import com.company.calculator.model.expression.InfixExpressionValue;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 
 public class ArithmeticFunctionParserTest {
 
@@ -78,9 +80,11 @@ public class ArithmeticFunctionParserTest {
     }
 
     @Test
-    public void shouldNotParseIncorrectExpression() {
-        InfixExpressionValue expressionValue = parser.parse("123 23 S+ 3");
-        assertNull(expressionValue);
+    public void shouldThrowExceptionOnParsingIncorrectExpression() {
+        assertThrows(InvalidDataException.class, () -> {
+            InfixExpressionValue expressionValue = parser.parse("123 23 S+ 3");
+            assertNull(expressionValue);
+        });
     }
 
 }

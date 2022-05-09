@@ -1,5 +1,6 @@
 package com.company.calculator.service.calculation.decorator;
 
+import com.company.calculator.exception.NoAccessException;
 import com.company.calculator.model.ArithmeticFunction;
 import com.company.calculator.model.TrigFunction;
 import com.company.calculator.model.expression.InfixExpressionValue;
@@ -11,6 +12,8 @@ import org.junit.Test;
 
 import java.util.Optional;
 
+import static org.junit.Assert.assertThrows;
+
 public class RestrictedCalculationServiceTest {
 
 
@@ -19,8 +22,11 @@ public class RestrictedCalculationServiceTest {
         CalculationService<PrefixExpressionValue> service = new RestrictedCalculationService<>(new TrigCalculationService(), Optional.empty());
         PrefixExpressionValue sinExpression = new PrefixExpressionValue(TrigFunction.SIN, 45);
 
-        double result = service.calculate(sinExpression);
-        assert result == 0.0;
+        assertThrows(NoAccessException.class, () -> {
+            double result = service.calculate(sinExpression);
+            assert result == 0.0;
+        });
+
     }
 
     @Test

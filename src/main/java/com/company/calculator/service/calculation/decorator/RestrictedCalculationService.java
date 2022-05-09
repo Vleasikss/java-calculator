@@ -1,5 +1,6 @@
 package com.company.calculator.service.calculation.decorator;
 
+import com.company.calculator.exception.NoAccessException;
 import com.company.calculator.model.expression.ExpressionValue;
 import com.company.calculator.service.calculation.CalculationService;
 import com.company.calculator.service.calculation.TrigCalculationService;
@@ -22,7 +23,7 @@ public class RestrictedCalculationService<T extends ExpressionValue> implements 
             if (userId.isPresent()) {
                 return calculationService.calculate(expressionValue);
             }
-            throw new UnsupportedOperationException();
+            throw new NoAccessException();
         }
         return calculationService.calculate(expressionValue);
     }
