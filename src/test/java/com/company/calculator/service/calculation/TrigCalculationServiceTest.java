@@ -1,8 +1,11 @@
 package com.company.calculator.service.calculation;
 
+import com.company.calculator.exception.InvalidDataException;
 import com.company.calculator.model.TrigFunction;
 import com.company.calculator.model.expression.PrefixExpressionValue;
 import org.junit.Test;
+
+import static org.junit.Assert.assertThrows;
 
 public class TrigCalculationServiceTest {
 
@@ -26,6 +29,14 @@ public class TrigCalculationServiceTest {
 
         double cotValue = service.calculate(cotExpression);
         assert cotValue == 3.124605622242308;
+
+    }
+
+    @Test
+    public void shouldNotCalculateTrigFunctionCorrectly() {
+        PrefixExpressionValue cosExpression = new PrefixExpressionValue(null, 30);
+
+        assertThrows(InvalidDataException.class, () -> service.calculate(cosExpression));
 
     }
 

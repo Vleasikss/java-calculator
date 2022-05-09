@@ -1,5 +1,6 @@
 package com.company.calculator.service.calculation;
 
+import com.company.calculator.exception.InvalidDataException;
 import com.company.calculator.model.ArithmeticFunction;
 import com.company.calculator.model.expression.InfixExpressionValue;
 import scala.Function2;
@@ -22,8 +23,7 @@ public class ArithmeticCalculationService implements CalculationService<InfixExp
             ArithmeticFunction arithmeticFunction = ArithmeticFunction.valueOf(functionName);
             return ARITHMETIC_FUNCTIONS.get(arithmeticFunction).apply(expressionValue.getLeftValue(), expressionValue.getRightValue());
         } catch (Exception e) {
-            System.out.println("Data entered incorrectly");
-            return 0.0;
+            throw new InvalidDataException();
         }
     }
 }

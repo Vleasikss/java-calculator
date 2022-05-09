@@ -1,5 +1,6 @@
 package com.company.calculator.service.calculation;
 
+import com.company.calculator.exception.InvalidDataException;
 import com.company.calculator.model.TrigFunction;
 import com.company.calculator.model.expression.PrefixExpressionValue;
 import scala.Function1;
@@ -22,8 +23,7 @@ public class TrigCalculationService implements CalculationService<PrefixExpressi
             TrigFunction trigFunction = TrigFunction.valueOf(functionName);
             return TRIG_FUNCTIONS.get(trigFunction).apply(expressionValue.getValue());
         } catch (Exception e) {
-            System.out.println("Data entered incorrectly");
-            return 0.0;
+            throw new InvalidDataException();
         }
     }
 

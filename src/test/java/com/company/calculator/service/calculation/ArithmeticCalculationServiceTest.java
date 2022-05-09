@@ -1,8 +1,11 @@
 package com.company.calculator.service.calculation;
 
+import com.company.calculator.exception.InvalidDataException;
 import com.company.calculator.model.ArithmeticFunction;
 import com.company.calculator.model.expression.InfixExpressionValue;
 import org.junit.Test;
+
+import static org.junit.Assert.assertThrows;
 
 public class ArithmeticCalculationServiceTest {
 
@@ -27,6 +30,12 @@ public class ArithmeticCalculationServiceTest {
         double divideValue = service1.calculate(divideExpression);
         assert divideValue == 1;
 
+    }
+
+    @Test
+    public void shouldNotCalculateArithmeticFunctionsCorrectly() {
+        InfixExpressionValue plusExpression = new InfixExpressionValue(null, 5, 5);
+        assertThrows(InvalidDataException.class, () -> service1.calculate(plusExpression));
     }
 
 }
