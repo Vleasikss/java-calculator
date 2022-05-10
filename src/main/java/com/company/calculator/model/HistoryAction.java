@@ -9,13 +9,7 @@ public class HistoryAction implements EntityId {
     private String desc;
     private String userId;
 
-    public HistoryAction() {
-    }
-
-    public HistoryAction(MathFunction action, String userId, String desc) {
-        this.function = action;
-        this.userId = userId;
-        this.desc = desc;
+    private HistoryAction() {
     }
 
     public HistoryAction(String id, MathFunction action, String userId, String desc) {
@@ -23,10 +17,6 @@ public class HistoryAction implements EntityId {
         this.function = action;
         this.userId = userId;
         this.desc = desc;
-    }
-
-    public static String buildResultDescription(String expression, double result) {
-        return expression + "=" + result;
     }
 
     @Override
@@ -84,4 +74,44 @@ public class HistoryAction implements EntityId {
                 ", userId='" + userId + '\'' +
                 '}';
     }
+
+    public static Builder newBuilder() {
+        return new HistoryAction().new Builder();
+    }
+
+    private static String buildResultDescription(String expression, double result) {
+        return expression + "=" + result;
+    }
+
+    public class Builder {
+
+        private Builder() {
+
+        }
+
+        public Builder withId(String id) {
+            HistoryAction.this.id = id;
+            return this;
+        }
+
+        public Builder withFunction(MathFunction function) {
+            HistoryAction.this.function = function;
+            return this;
+        }
+
+        public Builder withDesc(String expression, double result) {
+            HistoryAction.this.desc = buildResultDescription(expression, result);
+            return this;
+        }
+
+        public Builder withUserId(String userId) {
+            HistoryAction.this.userId = userId;
+            return this;
+        }
+
+        public HistoryAction build() {
+            return HistoryAction.this;
+        }
+    }
+
 }

@@ -17,39 +17,25 @@ public class UserAuthorizer {
         this.userStorageHelper = userStorageHelper;
     }
 
-    public Optional<User> processAuthorization() {
-        System.out.println("Please, enter your password and login");
-
-        System.out.println("Enter your login: ");
-        String login = scanner.next();
-
-        System.out.println("Enter your password: ");
-        String password = scanner.next();
-
-        return validateAuthorization(login, password);
+    public Optional<User> processAuthorization(String login, String password) {
+        if (login == null || password == null) {
+            System.out.println("Sorry, we didn't find you in the system.");
+        }
+        Optional<User> byLoginAndPassword = userStorageHelper.findByLoginAndPassword(login, password);
+        if (byLoginAndPassword.isEmpty()) {
+            System.out.println("Sorry, we didn't find you in the system.");
+        }
+        return byLoginAndPassword;
     }
 
-    public boolean processAuthentication() {
-        try {
-            System.out.println("Enter your login: ");
-            String login = scanner.next();
-
-            System.out.println("Enter your password: ");
-            String password = scanner.next();
-
-            System.out.println("Repeat your password: ");
-            String repeatPassword = scanner.next();
-
-            if (!validateAuthentication(login, password, repeatPassword)) {
-                return processAuthentication();
-            }
-            String idUser = generateUserId();
-            User user = new User(idUser, login, password);
-            userStorageHelper.save(user);
-            return true;
-        } catch (Exception e) {
-            return false;
+    public Optional<User> processAuthentication(String login, String password, String repeatPassword) {
+        if (!validateAuthentication(login, password, repeatPassword)) {
+            return Optional.empty();
         }
+        String idUser = generateUserId();
+        User user = new User(idUser, login, password);
+        userStorageHelper.save(user);
+        return Optional.of(user);
     }
 
     private String generateUserId() {
@@ -57,10 +43,15 @@ public class UserAuthorizer {
     }
 
     private boolean validateAuthentication(String login, String password, String repeatPassword) {
-        if (login.isEmpty()) {
+        if (login == null || login.isEmpty()) {
             System.out.println("Login should not be empty");
             return false;
         }
+        if (password == null) {
+            System.out.println("Password should not be empty");
+            return false;
+        }
+
         if (!Objects.equals(password, repeatPassword)) {
             System.out.println("Passwords do not match");
             return false;
@@ -73,11 +64,4 @@ public class UserAuthorizer {
         return true;
     }
 
-    private Optional<User> validateAuthorization(String login, String password) {
-        Optional<User> byLoginAndPassword = userStorageHelper.findByLoginAndPassword(login, password);
-        if (byLoginAndPassword.isEmpty()) {
-            System.out.println("Sorry, we didn't find you in the system.");
-        }
-        return byLoginAndPassword;
-    }
 }

@@ -2,6 +2,7 @@ package com.company.calculator.db;
 
 import com.company.calculator.model.HistoryAction;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 

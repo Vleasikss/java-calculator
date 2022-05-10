@@ -1,5 +1,6 @@
 package com.company.calculator.db;
 
+import com.company.calculator.exception.NoIdProvidedException;
 import com.company.calculator.model.HistoryAction;
 
 import java.util.List;
@@ -28,14 +29,6 @@ public class HistoryStorageHelper extends AbstractInMemoryStorageHelper<HistoryA
             return List.of();
         }
         return findAll().stream().filter(historyAction -> Objects.equals(id, historyAction.getUserId())).collect(Collectors.toList());
-    }
-
-    @Override
-    public void save(HistoryAction historyAction) {
-        if (historyAction.getId() == null || historyAction.getId().isEmpty()) {
-            historyAction.setId(UUID.randomUUID().toString().substring(0, 6));
-        }
-        super.save(historyAction);
     }
 
 }

@@ -34,16 +34,16 @@ public class TrigFunctionParser implements ExpressionParser<PrefixExpressionValu
 
     private static Optional<PrefixExpressionValue> parseOne(String group) {
         Matcher extractValueFromTrigFunctionMatcher = EXTRACT_VALUE_FROM_TRIG_FUNCTION_PATTERN.matcher(group);
-        if (extractValueFromTrigFunctionMatcher.find()) {
-            String strValue = extractValueFromTrigFunctionMatcher.group().replaceAll(EXTRACT_BRACKETS_REGEX, "");
-            double value = Double.parseDouble(strValue);
+        //noinspection ResultOfMethodCallIgnored
+        extractValueFromTrigFunctionMatcher.find();
 
-            String strFunction = group.split(EXTRACT_ALL_BEFORE_FIRST_BRACKET_REGEX)[0].toUpperCase();
-            MathFunction mathFunction = TrigFunction.valueOf(strFunction);
+        String strValue = extractValueFromTrigFunctionMatcher.group().replaceAll(EXTRACT_BRACKETS_REGEX, "");
+        double value = Double.parseDouble(strValue);
 
-            return Optional.of(new PrefixExpressionValue(mathFunction, value));
-        }
-        return Optional.empty();
+        String strFunction = group.split(EXTRACT_ALL_BEFORE_FIRST_BRACKET_REGEX)[0].toUpperCase();
+        MathFunction mathFunction = TrigFunction.valueOf(strFunction);
+
+        return Optional.of(new PrefixExpressionValue(mathFunction, value));
     }
 
     /**

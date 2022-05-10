@@ -28,7 +28,7 @@ public class RestrictedHistoryStorageHelperTest {
     @Test
     public void shouldFindAllHistories() throws IOException {
         HistoryAction historyAction = new HistoryAction("1", ArithmeticFunction.MINUS, "1", "5-5=0");
-        HistoryStorageHelper historyStorageHelper = new RestrictedHistoryStorageHelper(new TestHistoryStorageHelper(), Optional.of("1"));
+        RestrictedHistoryStorageHelper historyStorageHelper = new RestrictedHistoryStorageHelper(new TestHistoryStorageHelper(), Optional.of("1"));
 
         String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(historyAction);
         Files.writeString(historyStorageHelper.storageFilePath(), json);
@@ -41,7 +41,7 @@ public class RestrictedHistoryStorageHelperTest {
     @Test
     public void shouldRestrictAccessToFindAllHistoriesOnEmptyUser() throws IOException {
         HistoryAction historyAction = new HistoryAction("1", ArithmeticFunction.MINUS, "1", "5-5=0");
-        HistoryStorageHelper historyStorageHelper = new RestrictedHistoryStorageHelper(new TestHistoryStorageHelper(), Optional.empty());
+        RestrictedHistoryStorageHelper historyStorageHelper = new RestrictedHistoryStorageHelper(new TestHistoryStorageHelper(), Optional.empty());
 
         String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(historyAction);
         Files.writeString(historyStorageHelper.storageFilePath(), json);
@@ -53,7 +53,7 @@ public class RestrictedHistoryStorageHelperTest {
     @Test
     public void shouldFindHistoryByUserId() throws IOException {
         HistoryAction historyAction = new HistoryAction("1", ArithmeticFunction.MINUS, "1", "5-5=0");
-        HistoryStorageHelper historyStorageHelper = new RestrictedHistoryStorageHelper(new TestHistoryStorageHelper(), Optional.of("1"));
+        RestrictedHistoryStorageHelper historyStorageHelper = new RestrictedHistoryStorageHelper(new TestHistoryStorageHelper(), Optional.of("1"));
 
         String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(historyAction);
         Files.writeString(historyStorageHelper.storageFilePath(), json);
@@ -63,9 +63,18 @@ public class RestrictedHistoryStorageHelperTest {
     }
 
     @Test
+    public void shouldFindHistoryById() throws IOException {
+        HistoryAction historyAction = new HistoryAction("1", ArithmeticFunction.MINUS, "1", "5-5=0");
+        RestrictedHistoryStorageHelper historyStorageHelper = new RestrictedHistoryStorageHelper(new TestHistoryStorageHelper(), Optional.of("1"));
+
+        String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(historyAction);
+        Files.writeString(historyStorageHelper.storageFilePath(), json);
+    }
+
+    @Test
     public void shouldRestrictAccessToFindHistoryByUserIdOnEmptyUser() throws IOException {
         HistoryAction historyAction = new HistoryAction("1", ArithmeticFunction.MINUS, "1", "5-5=0");
-        HistoryStorageHelper historyStorageHelper = new RestrictedHistoryStorageHelper(new TestHistoryStorageHelper(), Optional.empty());
+        RestrictedHistoryStorageHelper historyStorageHelper = new RestrictedHistoryStorageHelper(new TestHistoryStorageHelper(), Optional.empty());
 
         String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(historyAction);
         Files.writeString(historyStorageHelper.storageFilePath(), json);
@@ -79,7 +88,6 @@ public class RestrictedHistoryStorageHelperTest {
         HistoryStorageHelper historyStorageHelper = new TestHistoryStorageHelper();
         Files.delete(historyStorageHelper.storageFilePath());
         historyStorageHelper.init();
-
     }
 
     @AfterClass

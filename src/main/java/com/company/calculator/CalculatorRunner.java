@@ -16,15 +16,16 @@ import com.company.calculator.service.printer.PrinterService;
 
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.UUID;
 
 public final class CalculatorRunner {
 
     private static final Scanner scanner = new Scanner(System.in).useDelimiter("\n\\s*");
     private static final PrinterService historyLogPrinterService = new HistoryLogPrinterService();
 
-    public static void run(Optional<String> userId) {
+    public static void run(Optional<String> maybeUserId) {
         CalculatorFactory<ExpressionValue> calculatorFactory;
-        RestrictedHistoryStorageHelper historyStorageHelper = new RestrictedHistoryStorageHelper(new HistoryStorageHelper(), userId);
+        RestrictedHistoryStorageHelper historyStorageHelper = new RestrictedHistoryStorageHelper(new HistoryStorageHelper(), maybeUserId);
         PrinterService calculatorLogPrinterService = new CalculatorLogPrinterService(historyStorageHelper);
 
         while (true) {
@@ -34,37 +35,44 @@ public final class CalculatorRunner {
             if (expression.equals(KeyExpressions.EXIT)) {
                 System.exit(0);
             } else if (expression.equals(KeyExpressions.HISTORY)) {
-                historyLogPrinterService.print(userId.orElse(null));
+                logHistory(maybeUserId);
             } else if ((calculatorFactory = CalculatorFactory.createFactory(expression)) != null) {
-                calculate(userId, calculatorFactory, historyStorageHelper, calculatorLogPrinterService, expression);
+                calculate(maybeUserId, calculatorFactory, historyStorageHelper, calculatorLogPrinterService, expression);
             } else {
                 System.out.println("Some unexpected expression");
             }
         }
     }
 
+    private static void logHistory(Optional<String> maybeUserId) {
+        try {
+            historyLogPrinterService.print(maybeUserId.orElse(null));
+        } catch (NoAccessException e) {
+            System.out.println("You have no access to use such operations");
+        }
+    }
+
     private static void calculate(
-            Optional<String> userId,
+            Optional<String> maybeUserId,
             CalculatorFactory<ExpressionValue> calculatorFactory,
             RestrictedHistoryStorageHelper historyStorageHelper,
             PrinterService calculatorLogPrinterService,
             String expression
     ) {
-        CalculationService<ExpressionValue> calculationService = new RestrictedCalculationService<>(calculatorFactory.createService(), userId);
+        CalculationService<ExpressionValue> calculationService = new RestrictedCalculationService<>(calculatorFactory.createService(), maybeUserId);
         ExpressionParser<ExpressionValue> expressionParser = calculatorFactory.createParser();
-
         try {
             ExpressionValue expressionValue = expressionParser.parse(expression);
             double result = calculationService.calculate(expressionValue);
-            String description = HistoryAction.buildResultDescription(expressionValue.description(), result);
 
-            HistoryAction historyAction = new HistoryAction(
-                    expressionValue.getExpression(),
-                    userId.orElse(null),
-                    description
-            );
+            HistoryAction historyAction = HistoryAction.newBuilder()
+                    .withId(UUID.randomUUID().toString().substring(0, 6))
+                    .withFunction(expressionValue.getExpression())
+                    .withDesc(expression, result)
+                    .withUserId(maybeUserId.orElse(null))
+                    .build();
+
             historyStorageHelper.save(historyAction);
-
             calculatorLogPrinterService.print(historyAction.getId());
         } catch (NoAccessException e) {
             System.out.println("You have no access to use such calculations");
