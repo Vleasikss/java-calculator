@@ -1,11 +1,9 @@
 package com.company.calculator.db;
 
-import com.company.calculator.exception.NoIdProvidedException;
 import com.company.calculator.model.HistoryAction;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class HistoryStorageHelper extends AbstractInMemoryStorageHelper<HistoryAction> {
