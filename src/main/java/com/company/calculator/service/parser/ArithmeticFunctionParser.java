@@ -7,6 +7,7 @@ import com.company.calculator.model.expression.InfixExpressionValue;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class ArithmeticFunctionParser implements ExpressionParser<InfixExpressionValue> {
 
@@ -29,19 +30,23 @@ public class ArithmeticFunctionParser implements ExpressionParser<InfixExpressio
     }
 
     private static InfixExpressionValue parseOne(String expression) {
-        ArithmeticFunction function = Arrays.stream(ArithmeticFunction.values())
-                .filter(af -> expression.contains(af.getValue()))
-                .findFirst()
-                .orElse(ArithmeticFunction.PLUS);
-
         Matcher numberMatch = PARSE_NUMBER_PATTERN.matcher(expression);
 
+        String tmpNoValues = expression;
         double[] values = new double[2];
         for (int i = 0; i < values.length; i++) {
             if (numberMatch.find()) {
-                values[i] = Double.parseDouble(numberMatch.group());
+                String group = numberMatch.group();
+                tmpNoValues = tmpNoValues.replaceFirst(group, "");
+                values[i] = Double.parseDouble(group);
             }
         }
+
+        final String noValues = tmpNoValues;
+        ArithmeticFunction function = Arrays.stream(ArithmeticFunction.values())
+                .filter(af -> noValues.contains(af.getValue()))
+                .findFirst()
+                .orElse(ArithmeticFunction.PLUS);
 
         return new InfixExpressionValue(function, values[0], values[1]);
     }

@@ -16,7 +16,6 @@ import static org.junit.Assert.assertThrows;
 
 public class RestrictedCalculationServiceTest {
 
-
     @Test
     public void shouldRestrictAccessOnUndefinedUser() {
         CalculationService<PrefixExpressionValue> service = new RestrictedCalculationService<>(new TrigCalculationService(), Optional.empty());
